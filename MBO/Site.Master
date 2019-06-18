@@ -1,0 +1,109 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="MBO.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="Head1" runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Bootstrap -->
+    <%:System.Web.Optimization.Styles.Render("~/Content/bundle") %>
+    <%:System.Web.Optimization.Scripts.Render("~/Scripts/bundle") %>
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <style>
+        .datepicker {
+            z-index: 1151 !important;
+        }
+    </style>
+    <script>
+        function heartBeat() {
+            $.get("KeepAlive.ashx?", function (data) { });
+        }
+        $(function () {
+            setInterval("heartBeat()", 1000 * 60 * 1);
+        });
+    </script>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="Default.aspx" style="font-size: 11px;">POSCO VST</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li id="lreg">
+                        <a href="Default.aspx">MBO Plan</a>
+                    </li>
+                    <li id="lrequest">
+                        <a href="Result.aspx">Evaluation</a>
+                    </li>
+                    <% if (string.Compare(Session["EMP_ID"].ToString().Trim(), "quantri") == 0)
+                       {%>
+                    <li id="ep">
+                        <a href="ep.aspx">Employee and Period</a>
+                    </li>
+                    <li id="plan">
+                        <a href="Plan.aspx">HR MBO Plans</a>
+                    </li>
+                    <li id="rs">
+                        <a href="MBOResult.aspx">HR MBO Result</a>
+                    </li>
+                    <li id="rule">
+                        <a href="EVA_RULES.aspx">Eva Rules</a>
+                    </li>
+                    <li id="linfo">
+                        <a href="Eva_Info.aspx">Eva Info</a>
+                    </li>
+                    <%} %>
+                </ul>
+                <% if (Session["EMP_ID"] != null)
+                   {%>
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Change password click user icon!">
+                        <%=Session["Name"].ToString().Trim()%></a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li class="active"><a href="ChangePassword.aspx">Change Password</a></li>
+                            <li><a href="Login.aspx?logout=true">Log out</a></li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                </ul>
+                <%} %>
+            </div>
+        </div>
+    </nav>
+
+    <header class="banner">
+        <div class="container-fluid">
+            <h3 class="margin0"><i class="glyphicon glyphicon-dashboard"></i>&nbsp;EVALUATION MANAGEMENT</h3>
+        </div>
+    </header>
+    <div class="content">
+        <div class="container-fluid" style="padding-left: 5px; padding-right: 0px;">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <footer>
+        <div class="container-fluid">
+            <span>Copyright &copy; 2017 - POSCO VST</span>
+        </div>
+    </footer>
+</body>
+</html>
